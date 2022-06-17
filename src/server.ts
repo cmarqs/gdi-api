@@ -4,7 +4,7 @@ import path from 'path';
 import http from 'http';
 import helmet from 'helmet';
 import StatusCodes from 'http-status-codes';
-import { Server as SocketIo } from 'socket.io';
+//import { Server as SocketIo } from 'socket.io';
 import express, { NextFunction, Request, Response } from 'express';
 
 import 'express-async-errors';
@@ -91,12 +91,12 @@ app.get('/chat', (req: Request, res: Response) => {
  * Tutorial used for this: https://www.valentinog.com/blog/socket-react/
  ***********************************************************************************/
 
-const server = http.createServer(app);
-const io = new SocketIo(server);
+ const server = http.createServer(app);
+// const io = new SocketIo(server);
 
-io.sockets.on('connect', () => {
-    return app.set('socketio', io);
-});
+// io.sockets.on('connect', () => {
+//     return app.set('socketio', io);
+// });
 
 
 
