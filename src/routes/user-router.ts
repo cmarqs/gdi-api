@@ -1,14 +1,16 @@
+
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 
 import userService from '@services/user-service';
 import { ParamMissingError } from '@shared/errors';
 
-
+import userRouter from '@routes/user-router';
 
 // Constants
 const router = Router();
 const { CREATED, OK } = StatusCodes;
+
 
 // Paths
 export const p = {
@@ -19,11 +21,10 @@ export const p = {
 } as const;
 
 
-
 /**
  * Get all users.
  */
-router.get(p.get, async (_: Request, res: Response) => {
+ router.get(p.get, async (_: Request, res: Response) => {
     const users = await userService.getAll();
     return res.status(OK).json({users});
 });
@@ -76,3 +77,4 @@ router.delete(p.delete, async (req: Request, res: Response) => {
 
 // Export default
 export default router;
+

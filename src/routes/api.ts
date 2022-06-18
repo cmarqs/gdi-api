@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authMw } from './middleware';
+import { authMw } from '../middleware';
 import authRouter from './auth-router';
 import userRouter from './user-router';
 import chatRouter from './chat-router';

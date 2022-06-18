@@ -1,64 +1,63 @@
-import userRepo from '@repos/user-repo';
-import { IUser } from '@models/user-model';
+
 import { UserNotFoundError } from '@shared/errors';
 
+import { execute } from "../util/mysql-connector";
+import { UserQueries } from '@repos/user';
+import { IUser } from '@models/User';
 
+const getAll = async () => {
+    return execute<IUser[]>(UserQueries.GetUsers, []);
+};
 
-/**
- * Get all users.
- * 
- * @returns 
- */
-function getAll(): Promise<IUser[]> {
-    return userRepo.getAll();
+const getByCustomer = async (company: IUser['company']) => {
+    return execute<IUser[]>(UserQueries.GetUserByCustomer, [company.id]);
 }
 
+const addOne = async (user: IUser) => {
+    const result = await execute<{ affectedRows: number }>(UserQueries.AddUser, [
+        user.name,
+        user.email,
+        user.secret,
+        user.observations,
+        user.role,
+        user.profile.id,
+        user.company.id,
+        true,
+    ]);
+    return result.affectedRows > 0;
+};
 
-/**
- * Add one user.
- * 
- * @param user 
- * @returns 
- */
-function addOne(user: IUser): Promise<void> {
-    return userRepo.add(user);
+const updateOne =async (user:IUser) => {
+    const result = await execute<{ affectedRows: number }>(UserQueries.ChangeUser, [
+        user.name,
+        user.secret,
+        user.observations,
+        user.role,
+        user.profile.id,
+        user.company.id,
+        user.isActive,
+        user.id
+    ]);
+    return result.affectedRows > 0;
 }
 
-
-/**
- * Update one user.
- * 
- * @param user 
- * @returns 
- */
-async function updateOne(user: IUser): Promise<void> {
-    const persists = await userRepo.persists(user.id);
-    if (!persists) {
-        throw new UserNotFoundError();
-    }
-    return userRepo.update(user);
+const disableOne=async (id:IUser['id']) => {
+    const result = await execute<{ afecctedRows: number }>(UserQueries.DisableUser, id);
+    return result.afecctedRows > 0;
 }
 
-
-/**
- * Delete a user by their id.
- * 
- * @param id 
- * @returns 
- */
-async function deleteOne(id: number): Promise<void> {
-    const persists = await userRepo.persists(id);
-    if (!persists) {
-        throw new UserNotFoundError();
-    }
-    return userRepo.delete(id);
+const phisicalRemove=async (id:IUser['id']) => {
+    const result = await execute<{ afecctedRows: number }>(UserQueries.DeleteUser, id);
+    return result.afecctedRows > 0;
 }
 
 
 // Export default
 export default {
     getAll,
+    getByCustomer,
     addOne,
     updateOne,
-    delete: deleteOne,
+    delete: disableOne,
+    exclude: phisicalRemove
 } as const;

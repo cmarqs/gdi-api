@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import path from 'path';
 import http from 'http';
 import helmet from 'helmet';
+import cors from 'cors';
 import StatusCodes from 'http-status-codes';
 //import { Server as SocketIo } from 'socket.io';
 import express, { NextFunction, Request, Response } from 'express';
@@ -13,6 +14,8 @@ import BaseRouter from './routes/api';
 import logger from 'jet-logger';
 import { cookieProps } from '@routes/auth-router';
 import { CustomError } from '@shared/errors';
+
+import * as MySQLConnector from './util/mysql-connector';
 
 const app = express();
 
@@ -36,8 +39,18 @@ if (process.env.NODE_ENV === 'production') {
     app.use(helmet());
 }
 
+// Database Pool
+MySQLConnector.init();
+
 // Add APIs
 app.use('/api', BaseRouter);
+
+// parse incoming request body and append data to `req.body`
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// enable all CORS request
+app.use(cors());
 
 // Error handling
 app.use((err: Error | CustomError, _: Request, res: Response, __: NextFunction) => {
