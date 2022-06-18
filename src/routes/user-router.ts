@@ -4,8 +4,9 @@ import { Request, Response, Router } from 'express';
 
 import userService from '@services/user-service';
 import { ParamMissingError } from '@shared/errors';
+import User, { IUser } from '@models/User';
+import { ICompany } from '@models/Company';
 
-import userRouter from '@routes/user-router';
 
 // Constants
 const router = Router();
@@ -22,10 +23,24 @@ export const p = {
 
 
 /**
- * Get all users.
+ * Get all users (Admin route)
  */
  router.get(p.get, async (_: Request, res: Response) => {
     const users = await userService.getAll();
+    return res.status(OK).json({users});
+ });
+
+/**
+ * Get all users by company
+ */
+router.get(p.get, async (req: Request, res: Response) => {
+    const {company_id} = req.params;
+    // Check param
+    if (!company_id) {
+        throw new ParamMissingError();
+    }
+    const company: ICompany = { id: Number(company_id), code: '', name: '', nickname: '' };
+    const users = await userService.getByCustomer(company);
     return res.status(OK).json({users});
 });
 
@@ -34,13 +49,13 @@ export const p = {
  * Add one user.
  */
 router.post(p.add, async (req: Request, res: Response) => {
-    const { user } = req.body;
+    const user: IUser = req.body;
     // Check param
-    if (!user) {
+    if (!user.name || !user.email || !user.role) {
         throw new ParamMissingError();
     }
     // Fetch data
-    await userService.addOne(user);
+    await userService.addOne(req.body);
     return res.status(CREATED).end();
 });
 
@@ -49,7 +64,7 @@ router.post(p.add, async (req: Request, res: Response) => {
  * Update one user.
  */
 router.put(p.update, async (req: Request, res: Response) => {
-    const { user } = req.body;
+    const user: IUser = req.body;
     // Check param
     if (!user) {
         throw new ParamMissingError();

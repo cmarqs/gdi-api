@@ -20,8 +20,8 @@ const addOne = async (user: IUser) => {
         user.secret,
         user.observations,
         user.role,
-        user.profile.id,
-        user.company.id,
+        user.profile?.id,
+        user.company?.id,
         true,
     ]);
     return result.affectedRows > 0;
@@ -30,11 +30,10 @@ const addOne = async (user: IUser) => {
 const updateOne =async (user:IUser) => {
     const result = await execute<{ affectedRows: number }>(UserQueries.ChangeUser, [
         user.name,
-        user.secret,
         user.observations,
         user.role,
-        user.profile.id,
-        user.company.id,
+        user.profile?.id,
+        user.company?.id,
         user.isActive,
         user.id
     ]);

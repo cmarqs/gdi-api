@@ -31,11 +31,11 @@ export interface IUser {
 function getNew(
     name: string,
     email: string,
-    company: ICompany,
+    profile:IProfile,
+    company?: ICompany,
     isActive?: boolean,
     observations?: string,
     role?: UserRoles,
-    profile?:IProfile,
     secret?: string,
 ): IUser {
     return {

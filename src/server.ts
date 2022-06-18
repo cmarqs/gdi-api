@@ -1,4 +1,5 @@
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import path from 'path';
 import http from 'http';
@@ -46,8 +47,8 @@ MySQLConnector.init();
 app.use('/api', BaseRouter);
 
 // parse incoming request body and append data to `req.body`
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // enable all CORS request
 app.use(cors());
