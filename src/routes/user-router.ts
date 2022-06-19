@@ -3,7 +3,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 
 import userService from '@services/user-service';
-import { ParamMissingError, UserNotFoundError } from '@shared/errors';
+import { ParamMissingError, RegistryNotFoundError } from '@shared/errors';
 import { IUser } from '@models/User';
 import { ICompany } from '@models/Company';
 
@@ -56,7 +56,7 @@ router.get(p.getAll, async (req: Request, res: Response) => {
     }
      const user = await userService.getOneById(Number(id));
      if (!user)
-         throw new UserNotFoundError();
+         throw new RegistryNotFoundError();
 
     return res.status(OK).json({user});
 });

@@ -1,8 +1,8 @@
 
-import { UserNotFoundError } from '@shared/errors';
+import { RegistryNotFoundError } from '@shared/errors';
 
 import { execute } from "../util/mysql-connector";
-import { UserQueries } from '@repos/user';
+import { UserQueries } from '@repos/index';
 import { IUser } from '@models/User';
 import { hashPassword } from '@util/bcrypt-util';
 
@@ -19,7 +19,7 @@ const getOneById = async (id: IUser['id']) => {
     const result = await execute<IUser[]>(UserQueries.GetOneById, [id]);
 
     if (!result || result.length <= 0)
-        throw new UserNotFoundError();
+        throw new RegistryNotFoundError();
     
     const user: IUser = result[0];
     return user;
@@ -29,7 +29,7 @@ const getOneByEmail = async (email: IUser['email']) => {
     const result = await execute<any>(UserQueries.GetOneByEmail, [email]);
 
     if (!result || result.length <= 0)
-        throw new UserNotFoundError();
+        throw new RegistryNotFoundError();
     
     const user: IUser = result[0];
     return user;

@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 import jwtUtil from '@util/jwt-util';
 import { UnauthorizedError } from '@shared/errors';
 import userService from './user-service';
-import { IUser } from '@models/User';
 
 
 

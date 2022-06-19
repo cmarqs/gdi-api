@@ -1,7 +1,7 @@
 -- companies: table
 CREATE TABLE `companies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(13) NOT NULL,
+  `code` varchar(25) NOT NULL,
   `nickname` varchar(100) DEFAULT NULL,
   `name` varchar(500) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '0',

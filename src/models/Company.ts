@@ -9,13 +9,14 @@ export interface ICompany{
     code: string;
     nickname: string;
     name: string;
+    isActive?: boolean;
 }
 
 /**
  * Get a new Company object.
  */
 function getNew(): ICompany{
-    return { id: -1, code: '00.000.000/0000-00', nickname: '', name: '' };
+    return { id: -1, code: '00.000.000/0000-00', nickname: '', name: '', isActive: true };
 }
 
 export default {
