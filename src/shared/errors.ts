@@ -23,13 +23,13 @@ export class ParamMissingError extends CustomError {
 }
 
 
-export class UserNotFoundError extends CustomError {
+export class RegistryNotFoundError extends CustomError {
 
-    public static readonly Msg = 'A user with the given id does not exists in the database.';
+    public static readonly Msg = 'The register with the given id does not exists in the database.';
     public static readonly HttpStatus = HttpStatusCodes.NOT_FOUND;
 
     constructor() {
-        super(UserNotFoundError.Msg, UserNotFoundError.HttpStatus);
+        super(RegistryNotFoundError.Msg, RegistryNotFoundError.HttpStatus);
     }
 }
 

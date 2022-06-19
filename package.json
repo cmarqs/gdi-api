@@ -79,7 +79,8 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "randomstring": "^1.2.2",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.1",
+    "ts-generic-collections-linq": "^1.0.7"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

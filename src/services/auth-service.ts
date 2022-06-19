@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
 
-import userRepo from '@repos/user-repo';
+//import userRepo from '@repos/user-repo';
 import jwtUtil from '@util/jwt-util';
 import { UnauthorizedError } from '@shared/errors';
+import userService from './user-service';
 
 
 
@@ -15,7 +16,8 @@ import { UnauthorizedError } from '@shared/errors';
  */
 async function login(email: string, password: string): Promise<string> {
     // Fetch user
-    const user = await userRepo.getOne(email);
+    //const user = await userRepo.getOne(email);
+    const user = await userService.getOneByEmail(email);
     if (!user) {
         throw new UnauthorizedError();
     }
@@ -27,7 +29,7 @@ async function login(email: string, password: string): Promise<string> {
     // Setup Admin Cookie
     return jwtUtil.sign({
         id: user.id,
-        email: user.name,
+        email: user.email,
         name: user.name,
         role: user.role,
     });
