@@ -1,4 +1,4 @@
-import { createPool, Pool} from 'mysql';
+import { createPool, Pool } from 'mysql';
 import { DATA_SOURCES } from '../shared/vars-config';
 const dataSource = DATA_SOURCES.mySqlDataSource;
 

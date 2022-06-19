@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS UNITY_GDL;
+CREATE DATABASE UNITY_GDL;
 /**
  * Feel free to change the username as well as the password given to it
  */

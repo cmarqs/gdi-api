@@ -3,8 +3,8 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 
 import userService from '@services/user-service';
-import { ParamMissingError } from '@shared/errors';
-import User, { IUser } from '@models/User';
+import { ParamMissingError, UserNotFoundError } from '@shared/errors';
+import { IUser } from '@models/User';
 import { ICompany } from '@models/Company';
 
 
@@ -15,7 +15,8 @@ const { CREATED, OK } = StatusCodes;
 
 // Paths
 export const p = {
-    get: '/all',
+    getAll: '/all',
+    getOne: '/:id',
     add: '/add',
     update: '/update',
     delete: '/delete/:id',
@@ -25,7 +26,7 @@ export const p = {
 /**
  * Get all users (Admin route)
  */
- router.get(p.get, async (_: Request, res: Response) => {
+ router.get(p.getAll, async (_: Request, res: Response) => {
     const users = await userService.getAll();
     return res.status(OK).json({users});
  });
@@ -33,7 +34,7 @@ export const p = {
 /**
  * Get all users by company
  */
-router.get(p.get, async (req: Request, res: Response) => {
+router.get(p.getAll, async (req: Request, res: Response) => {
     const {company_id} = req.params;
     // Check param
     if (!company_id) {
@@ -44,6 +45,21 @@ router.get(p.get, async (req: Request, res: Response) => {
     return res.status(OK).json({users});
 });
 
+/**
+ * Get user by id
+ */
+ router.get(p.getOne, async (req: Request, res: Response) => {
+    const {id} = req.params;
+    // Check param
+    if (!id) {
+        throw new ParamMissingError();
+    }
+     const user = await userService.getOneById(Number(id));
+     if (!user)
+         throw new UserNotFoundError();
+
+    return res.status(OK).json({user});
+});
 
 /**
  * Add one user.
