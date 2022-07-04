@@ -9,6 +9,16 @@ Setup Enviroment
 
 1. Follow the @database/README.md to setup the database.
 
+GDL - Legal Document Management
+
+This project consists of re-developing the existing GDL system. In addition to adding functionalities, improvements and updating business rules, the backend architecture – this repo – and UI – is being redone.
+
+Technology:
+- Node + Express
+- Typescript
+- MySQL*
+
+*No Sequelize
 
 Available commands for the server.
 -----------------------
